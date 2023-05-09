@@ -616,10 +616,10 @@ contract BscPepeToken is Context, IBEP20, Ownable, ReentrancyGuard {
     uint256 public disruptiveTransferEnabledFrom = 0;
     uint256 public disableEasyRewardFrom = 0;
 
-    uint256 public _taxFee = 5;
+    uint256 public _taxFee = 2;
     uint256 private _previousTaxFee = _taxFee;
 
-    uint256 public _liquidityFee = 5;
+    uint256 public _liquidityFee = 2;
     uint256 private _previousLiquidityFee = _liquidityFee;
 
     uint256 public _deadFee = 1;
@@ -810,14 +810,14 @@ contract BscPepeToken is Context, IBEP20, Ownable, ReentrancyGuard {
     }
 
     function setTaxFeePercent(uint256 taxFee) external onlyOwner() {
-        require(taxFee <= 30, 'Tax fee should be less than or equal to 30');
+        require(taxFee <= 10, 'Tax fee should be less than or equal to 10');
         uint256 oldTaxFee = _taxFee;
         _taxFee = taxFee;
         emit SetTaxFeePercent(oldTaxFee, taxFee);
     }
 
     function setLiquidityFeePercent(uint256 liquidityFee) external onlyOwner() {
-        require(liquidityFee <= 30, 'Liquidity fee should be less than or equal to 30');
+        require(liquidityFee <= 10, 'Liquidity fee should be less than or equal to 10');
         uint256 oldLiquidityFee = _liquidityFee;
         _liquidityFee = liquidityFee;
         emit SetLiquidityFeePercent(oldLiquidityFee, liquidityFee);
@@ -1056,6 +1056,7 @@ contract BscPepeToken is Context, IBEP20, Ownable, ReentrancyGuard {
     }
 
     function setMaxTxPercent(uint256 maxTxPercent) public onlyOwner() {
+        require(maxTxPercent >= 1000, "Min 0.1% of total supply");
         uint256 oldMaxTxAmount = _maxTxAmount;
         _maxTxAmount = _tTotal.mul(maxTxPercent).div(10000);
         emit SetMaxTxPercent(oldMaxTxAmount, _maxTxAmount);
